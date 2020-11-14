@@ -11,8 +11,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.kiba.coordinateaxischart.exception.FunctionNotValidException;
-import com.kiba.coordinateaxischart.exception.FunctionTypeException;
 import com.kiba.coordinateaxischart.type.CircularType;
 import com.kiba.coordinateaxischart.type.ExpType;
 import com.kiba.coordinateaxischart.type.FuncType;
@@ -35,7 +33,6 @@ public class CoordinateAxisChart extends View {
     private final int DEFAULT_AXIS_POINT_RADIUS = 5;
     private final int DEFAULT_AXIS_COLOR = Color.BLACK;
     private final int DEFAULT_MAX = 5;
-    private final int DEFAULT_SINGLE_POINT_RADIUS = 8;
     private final int DEFAULT_SINGLE_POINT_COLOR = DEFAULT_AXIS_COLOR;
 
     private static final String TAG = "CoordinateAxisChart";
@@ -47,7 +44,6 @@ public class CoordinateAxisChart extends View {
 
     private Paint axisPaint;
     private Paint functionLinePaint;
-    private Paint pointPaint;
 
     private int lineColor           = Color.RED;
     private int axisColor           = DEFAULT_AXIS_COLOR; // axis color
@@ -118,11 +114,6 @@ public class CoordinateAxisChart extends View {
         functionLinePaint.setDither(true);
         functionLinePaint.setStyle(Paint.Style.STROKE);
 
-        pointPaint = new Paint();
-        pointPaint.setColor(DEFAULT_SINGLE_POINT_COLOR);
-        pointPaint.setStyle(Paint.Style.FILL);
-        pointPaint.setAntiAlias(true);
-
         // prepare an array to cache the split points
         xPointsValues = new PointF[segmentSize];
     }
@@ -171,11 +162,6 @@ public class CoordinateAxisChart extends View {
 
         drawAxis(canvas);
 
-        // 画点
-        for (int i = 0; i < points.size(); i++) {
-            SinglePoint point = points.get(i);
-            drawPoint(point, canvas);
-        }
 
         // 画 函数的线
         for (int i = 0; i < lines.size(); i++) {
@@ -195,22 +181,14 @@ public class CoordinateAxisChart extends View {
                 resetStatus();
                 setFunctionType(line.getFunctionType());
                 drawFuncLine(canvas);
-            } catch (FunctionTypeException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
     }
 
-    private void drawPoint(SinglePoint point, Canvas canvas) {
 
-        PointF pointRaw = convertLogicalPoint2Raw(point.getPoint(), unitLength);
-        if(point.getPointColor() != null){
-            pointPaint.setColor(point.getPointColor());
-        }
-        int radius = point.getPointRadius() == null ? DEFAULT_SINGLE_POINT_RADIUS : point.getPointRadius();
-        canvas.drawCircle(pointRaw.x, pointRaw.y, radius, pointPaint);
-    }
 
     private void drawAxis(Canvas canvas) {
         // draw x axis
@@ -440,7 +418,7 @@ public class CoordinateAxisChart extends View {
             }
             try {
                 splitLogic.y = FuncUtils.getLogYValue(a, b, c, d, splitLogic.x);
-            } catch (FunctionNotValidException e) {
+            } catch (Exception e) {
                 continue;
             }
             // convert logical to raw
@@ -475,7 +453,7 @@ public class CoordinateAxisChart extends View {
             Float y;
             try {
                 y = FuncUtils.getCircularYValue(a, b, c, d, splitLogic.x, type);
-            } catch (FunctionTypeException e) {
+            } catch (Exception e) {
                 continue;
             }
             splitLogic.y = y;
@@ -605,7 +583,7 @@ public class CoordinateAxisChart extends View {
         }
     }
 
-    private  <T extends LinearType> void setFunctionType(T type) throws FunctionTypeException {
+    private  <T extends LinearType> void setFunctionType(T type) throws Exception {
         if(type != null){
             switch (type.getClass().getSimpleName()){
                 case "LinearType":
@@ -646,7 +624,7 @@ public class CoordinateAxisChart extends View {
                     this.type = circularType;
                     break;
                 default:
-                    throw new FunctionTypeException("Function type error.");
+                    throw new Exception("Function type error.");
             }
         }
     }

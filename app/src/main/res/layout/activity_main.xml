@@ -1,74 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kiba.sample.MainActivity">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="请输入二元方程参数 例：y=ax^c+b"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/coordinateAxisChart"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/linear"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="y=2x+1"/>
+            android:text="A:"
+            android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/power"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_a"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="y=x^2"
-            android:layout_toRightOf="@+id/linear"/>
+            android:hint="请输入A" />
+    </LinearLayout>
 
-        <Button
-            android:id="@+id/log"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="y=log(x)"
-            android:layout_below="@+id/linear"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/sin"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="y=sin(x)"
-            android:layout_below="@+id/linear"
-            android:layout_toRightOf="@+id/log"/>
+            android:text="B:"
+            android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/exp"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_b"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="y=2^x"
-            android:layout_toRightOf="@+id/sin"/>
+            android:hint="请输入B" />
+    </LinearLayout>
 
-        <Button
-            android:id="@+id/point"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="point(1,2)"
-            android:layout_below="@+id/linear"
-            android:layout_toRightOf="@+id/sin"/>
+            android:text="C:"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_c"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入C" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="reset"
-            android:layout_below="@+id/log"/>
+            android:layout_below="@+id/log"
+            android:text="重置" />
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/log"
+            android:text="生成" />
+    </LinearLayout>
 
     <com.kiba.coordinateaxischart.CoordinateAxisChart
         android:id="@+id/coordinateAxisChart"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="400dp" />
 
-</RelativeLayout>
+</LinearLayout>

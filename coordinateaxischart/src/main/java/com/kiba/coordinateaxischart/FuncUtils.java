@@ -1,9 +1,5 @@
 package com.kiba.coordinateaxischart;
-
 import android.graphics.PointF;
-
-import com.kiba.coordinateaxischart.exception.FunctionNotValidException;
-import com.kiba.coordinateaxischart.exception.FunctionTypeException;
 import com.kiba.coordinateaxischart.type.CircularType.Circular;
 import com.kiba.coordinateaxischart.type.FuncType;
 
@@ -40,14 +36,14 @@ public class FuncUtils {
         return (float) (a * Math.pow(c, x) + b);
     }
 
-    public static float getLogYValue(float a, float b, float c, float d, float x) throws FunctionNotValidException {
+    public static float getLogYValue(float a, float b, float c, float d, float x) throws Exception {
         if(c * x + d <= 0){
-            throw new FunctionNotValidException("The value inside log() cannot be 0 or negative.");
+            throw new Exception("The value inside log() cannot be 0 or negative.");
         }
         return (float) (a * Math.log(c * x + d) + b);
     }
 
-    public static Float getCircularYValue(float a, float b, float c, float d, float x, Circular type) throws FunctionTypeException {
+    public static Float getCircularYValue(float a, float b, float c, float d, float x, Circular type) throws Exception {
         switch (type){
             case SIN:
                 return (float) (a * Math.sin(c * x + d) + b);
@@ -60,10 +56,10 @@ public class FuncUtils {
                 if(tan != 0){
                     return 1 / (float) (a * Math.tan(c * x + d) + b);
                 }else{
-                    throw new FunctionTypeException("cot(kπ) {n∈Z} is not valid.");
+                    throw new Exception("cot(kπ) {n∈Z} is not valid.");
                 }
             default:
-                throw new FunctionTypeException("No 'Circular Type' found.");
+                throw new Exception("No 'Circular Type' found.");
         }
     }
 
@@ -78,14 +74,14 @@ public class FuncUtils {
             case LOG_TYPE:
                 try {
                     return new PointF(x, getLogYValue(a, b, c, d, x));
-                } catch (FunctionNotValidException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case CIRCULAR_TYPE:
                 try {
                     return new PointF(x, getCircularYValue(a, b, c, d, x, circular));
-                } catch (FunctionTypeException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
